@@ -1,37 +1,14 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
+.square {
+    width: 100px;
+    height: 100px;
 }
 
-td {
-    width: 33.333%;
-    border: 6px solid #222;
+.v {
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
 }
 
-td::after {
-    content: '';
-    display: block;
-    margin-top: 100%;
-}
-
-td {
-    border: 6px solid #222;
-}
-
-td:first-of-type {
-    border-left-color: transparent;
-    border-top-color: transparent;
-}
-
-td:nth-of-type(2) {
-    border-top-color: transparent;
-}
-
-td:nth-of-type(3) {
-    border-right-color: transparent;
-    border-top-color: transparent;
-}
-
-tr:nth-of-type(3) td {
-    border-bottom-color: transparent;
+.h {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
