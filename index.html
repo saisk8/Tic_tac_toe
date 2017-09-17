@@ -2,32 +2,37 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="./css/master.css">
+	<meta charset="utf-8">
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" href="./css/master.css">
 </head>
 
 <body>
-    <div id="board">
-        <table>
-            <tr id="row1">
-                <td class="cell" id="0"></td>
-                <td class="cell" id="1"></td>
-                <td class="cell" id="2"></td>
-            </tr>
-            <tr id="row2">
-                <td class="cell" id="3"></td>
-                <td class="cell" id="4"></td>
-                <td class="cell" id="5"></td>
-            </tr>
-            <tr id="row3">
-                <td class="cell" id="6"></td>
-                <td class="cell" id="7"></td>
-                <td class="cell" id="8"></td>
-            </tr>
-        </table>
-    </div>
-    <script src="./js/app.js" charset="utf-8"></script>
+	<div id="board">
+		<table>
+			<tr id="row1">
+				<td class="cell" id="0"></td>
+				<td class="cell" id="1"></td>
+				<td class="cell" id="2"></td>
+			</tr>
+			<tr id="row2">
+				<td class="cell" id="3"></td>
+				<td class="cell" id="4"></td>
+				<td class="cell" id="5"></td>
+			</tr>
+			<tr id="row3">
+				<td class="cell" id="6"></td>
+				<td class="cell" id="7"></td>
+				<td class="cell" id="8"></td>
+			</tr>
+		</table>
+		<div class="endgame">
+			<div class="text">
+			</div>
+		</div>
+		<button onclick="startGame()">Replay</button>
+	</div>
+	<script src="./js/app.js" charset="utf-8"></script>
 </body>
 
 </html>
