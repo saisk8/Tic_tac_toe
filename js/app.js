@@ -16,6 +16,10 @@ function startGame() {
 	}
 }
 
-function turnClick(s) {
-	console.log(s.target.id);
+function turnClick(square) {
+	turn(square.target.id, human);
+}
+
+function turn(squareId, player) {
+	original[suqareId] = player;
 }
