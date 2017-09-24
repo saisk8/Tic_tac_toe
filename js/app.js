@@ -1,6 +1,6 @@
 var origBoard = [];
-const huPlayer = 'O';
-const aiPlayer = 'X';
+const human = 'O';
+const ai = 'X';
 const winCombos = [
 	[0, 1, 2],
 	[3, 4, 5],
@@ -26,14 +26,19 @@ function startGame() {
 }
 
 function turnClick(square) {
-	turn(square.target.id, huPlayer)
+	if (typeof origBoard[square.target.id] == 'number') {
+		turn(square.target.id, human);
+		if (!checkTie()) {
+			turn(bestSpot(), ai);
+		}
+	}
 }
 
 function turn(squareId, player) {
 	origBoard[squareId] = player;
 	document.getElementById(squareId).innerText = player;
-	let gameWon = checkWin(origBoard, player)
-	if (gameWon) gameOver(gameWon)
+	let gameWon = checkWin(origBoard, player);
+	if (gameWon) gameOver(gameWon);
 }
 
 function checkWin(board, player) {
@@ -52,9 +57,35 @@ function checkWin(board, player) {
 function gameOver(gameWon) {
 	for (let index of winCombos[gameWon.index]) {
 		document.getElementById(index).style.backgroundColor =
-			gameWon.player == huPlayer ? "blue" : "red";
+			gameWon.player == human ? "blue" : "red";
 	}
 	for (var i = 0; i < cells.length; i++) {
 		cells[i].removeEventListener('click', turnClick, false);
 	}
+	declareWinner(gameWon.player === human ? "You win!" : "You lose!");
+}
+
+function declareWinner(who) {
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .text").innerText = who;
+}
+
+function bestSpot() {
+	return emptySquares()[0];
+}
+
+function emptySquares() {
+	return origBoard.filter(s => typeof s == 'number');
+}
+
+function checkTie() {
+	if (emptySquares().length === 0) {
+		for (var i = 0; i < cells.length; i++) {
+			cells[i].style.backgroundColor = "green";
+			cells[i].removeEventListener('click', turnClick, false);
+		}
+		declareWinner("Tie Game!");
+		return true;
+	}
+	return false;
 }
