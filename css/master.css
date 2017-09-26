@@ -1,15 +1,16 @@
 h1, p {
 		text-align: center;
+		font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 td {
 		border: 2px solid #333;
-		height: 100px;
-		width: 100px;
+		height: 140px;
+		width: 140px;
 		text-align: center;
 		vertical-align: middle;
 		font-family: "Comic Sans MS", cursive, sans-serif;
-		font-size: 70px;
+		font-size: 80px;
 		cursor: pointer;
 }
 
@@ -17,7 +18,7 @@ table {
 		border-collapse: collapse;
 		position: absolute;
 		left: 50%;
-		margin-left: -155px;
+		margin-left: -220px;
 		top: 20%;
 }
 
@@ -51,4 +52,26 @@ table tr td:last-child {
 		border-radius: 5px;
 		color: white;
 		font-size: 2em;
+}
+
+button {
+		position: relative;
+		margin: auto;
+		margin-top: 12px;
+		margin-left: 12px;
+		border: none;
+		font-size: 30px;
+		background-color: #ffffff;
+		outline: none;
+		cursor: pointer;
+		font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.wrapper {
+		text-align: center;
+		width: 100px;
+		height: 100px;
+		padding: 20px;
+		margin-top: 35%;
+		margin-left: 44%;
 }
