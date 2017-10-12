@@ -1,142 +1,115 @@
-var origBoard = [];
-const human = 'O';
-const ai = 'X';
-const winCombos = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[6, 4, 2]
-];
-
-const cells = document.querySelectorAll('.cell');
-startGame();
-
-function startGame() {
-	document.querySelector(".endgame").style.display = "none";
-	origBoard = Array.from(Array(9).keys());
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].innerText = '';
-		cells[i].style.removeProperty('background-color');
-		cells[i].addEventListener('click', turnClick, false);
-	}
-}
-
-function turnClick(square) {
-	if (typeof origBoard[square.target.id] == 'number') {
-		turn(square.target.id, human);
-		if (!checkTie()) {
-			turn(bestSpot(), ai);
-		}
-	}
-}
-
-function turn(squareId, player) {
-	origBoard[squareId] = player;
-	document.getElementById(squareId).innerText = player;
-	let gameWon = checkWin(origBoard, player);
-	if (gameWon) gameOver(gameWon);
-}
-
-function checkWin(board, player) {
-	let plays = board.reduce((a, e, i) => 
-		(e === player) ? a.concat(i) : a, []);
-	let gameWon = null;
-	for (let [index, win] of winCombos.entries()) {
-		if (win.every(elem => plays.indexOf(elem) > -1)) {
-			gameWon = {index: index, player: player};
-			break;
-		}
-	}
-	return gameWon;
-}
-
-function gameOver(gameWon) {
-	for (let index of winCombos[gameWon.index]) {
-		document.getElementById(index).style.backgroundColor =
-			gameWon.player == human ? "blue" : "red";
-	}
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].removeEventListener('click', turnClick, false);
-	}
-	declareWinner(gameWon.player === human ? "You win!" : "You lose!");
-}
-
-function declareWinner(who) {
-	document.querySelector(".endgame").style.display = "block";
-	document.querySelector(".endgame .text").innerText = who;
-}
-
-function bestSpot() {
-	return minimax(origBoard, ai).index;
-}
-
-function emptySquares() {
-	return origBoard.filter(s => typeof s == 'number');
-}
-
-function checkTie() {
-	if (emptySquares().length === 0) {
-		for (var i = 0; i < cells.length; i++) {
-			cells[i].style.backgroundColor = "green";
-			cells[i].removeEventListener('click', turnClick, false);
-		}
-		declareWinner("Tie Game!");
-		return true;
-	}
-	return false;
-}
-
-function minimax(newBoard, player) {
-	var availSpots = emptySquares(newBoard);
-
-	if (checkWin(newBoard, human)) {
-		return {score: -10};
-	} else if (checkWin(newBoard, ai)) {
-		return {score: 10};
-	} else if (availSpots.length === 0) {
-		return {score: 0};
-	}
-	var moves = [];
-	for (var i = 0; i < availSpots.length; i++) {
-		var move = {};
-		move.index = newBoard[availSpots[i]];
-		newBoard[availSpots[i]] = player;
-
-		if (player == ai) {
-			var result = minimax(newBoard, human);
-			move.score = result.score;
+class Game { //eslint-disable-line (no-unused-vars)
+	constructor(player) {
+		this.winner = null;
+		this.humanPlayer = player;
+		this.board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+		if (this.humanPlayer === "X") {
+			this.aiPlayer = "O";
 		} else {
-			var result = minimax(newBoard, ai);
-			move.score = result.score;
+			this.aiPlayer = "X";
 		}
+		this.winPattern = [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+			[0, 4, 8],
+			[6, 4, 2]
+		];
 
-		newBoard[availSpots[i]] = move.index;
-
-		moves.push(move);
-	}
-
-	var bestMove;
-	if(player === ai) {
-		var bestScore = -10000;
-		for(var i = 0; i < moves.length; i++) {
-			if (moves[i].score > bestScore) {
-				bestScore = moves[i].score;
-				bestMove = i;
+		this.humanTurn = function(cell) {
+			if (typeof cell.target.id == "number") {
+				this.updateBoard(cell.target.id, this.humanPlayer);
 			}
-		}
-	} else {
-		var bestScore = 10000;
-		for(var i = 0; i < moves.length; i++) {
-			if (moves[i].score < bestScore) {
-				bestScore = moves[i].score;
-				bestMove = i;
-			}
-		}
-	}
+		};
 
-	return moves[bestMove];
+		this.aiTurn = function() {
+			if (!this.checkTie()) {
+				var move = this.aiMove();
+				this.updateBoard(move, this.aiPlayer);
+				return move;
+			} else {
+				this.winner = "Tie";
+				return this.winner;
+			}
+		};
+
+		this.updateBoard = function(square, player) {
+			this.board[square] = player;
+			this.winner = this.checkWin(this.board, player);
+			if (this.winner) {
+				this.declareWinner(this.winner);
+			}
+		};
+
+		this.checkWin = function(board, player) {
+			let plays = board.reduce((a, e, i) =>
+				(e === player) ? a.concat(i) : a, []);
+			let gameWon = null;
+			for (let [index, win] of this.winPattern.entries()) {
+				if (win.every(elem => plays.indexOf(elem) > -1)) {
+					gameWon = {
+						index: this.winPattern[index],
+						player: player
+					};
+					break;
+				}
+			}
+			return gameWon;
+		};
+
+		this.aiMove = function() {
+			var best = -1000;
+			var move;
+			var availSpots = this.getAvailableMoves(this.board);
+			for (var i = 0; i < availSpots.length; i++) {
+				this.board[availSpots[i]] = this.aiPlayer;
+				var value = this.minimax(this.board, 0, false);
+				this.board[availSpots[i]] = availSpots[i];
+				if (value > best) {
+					move = availSpots[i];
+					best = value;
+				}
+			}
+			this.updateBoard(move, this.aiPlayer);
+			return move;
+		};
+
+		this.getAvailableMoves = function(newBoard) {
+			return newBoard.filter(s => typeof s == "number");
+		};
+
+		this.minimax = function(newBoard, depth, isAiTurn) {
+			if (this.checkWin(newBoard, this.humanPlayer)) {
+				return -10 + depth;
+			} else if (this.checkWin(newBoard, this.aiPlayer)) {
+				return 10 - depth;
+			} else if (this.getAvailableMoves(newBoard)
+				.length === 0) {
+				return 0;
+			}
+
+			if (isAiTurn) {
+				let best = -1000;
+				let availSpots = this.getAvailableMoves(newBoard);
+				for (let i = 0; i < availSpots.length; i++) {
+					newBoard[availSpots[i]] = this.aiPlayer;
+					best = Math.max(this.minimax(newBoard, depth + 1, !isAiTurn), best);
+					this.board[availSpots[i]] = availSpots[i];
+				}
+				return best;
+			} else {
+				let best = 1000;
+				let availSpots = this.getAvailableMoves(newBoard);
+				for (let i = 0; i < availSpots.length; i++) {
+					newBoard[availSpots[i]] = this.humanPlayer;
+					best = Math.min(this.minimax(newBoard, depth + 1, !isAiTurn), best);
+					this.board[availSpots[i]] = availSpots[i];
+				}
+				return best;
+			}
+		};
+	}
 }
