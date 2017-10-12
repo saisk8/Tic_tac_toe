@@ -2,6 +2,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 	constructor(player) {
 		this.winner = null;
 		this.humanPlayer = player;
+		this.gameOver = false;
 		this.board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 		if (this.humanPlayer === "X") {
 			this.aiPlayer = "O";
@@ -20,8 +21,9 @@ class Game { //eslint-disable-line (no-unused-vars)
 		];
 
 		this.humanTurn = function(cell) {
-			if (typeof cell.target.id == "number") {
+			if (typeof cell.target.id == "string") {
 				this.updateBoard(cell.target.id, this.humanPlayer);
+				this.aiTurn();
 			}
 		};
 
@@ -31,8 +33,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 				this.updateBoard(move, this.aiPlayer);
 				return move;
 			} else {
-				this.winner = "Tie";
-				return this.winner;
+				this.declareWinner("Tie");
 			}
 		};
 
@@ -40,8 +41,13 @@ class Game { //eslint-disable-line (no-unused-vars)
 			this.board[square] = player;
 			this.winner = this.checkWin(this.board, player);
 			if (this.winner) {
-				this.declareWinner(this.winner);
+				this.declareWinner(this.winner.player);
 			}
+		};
+
+		this.checkTie = function() {
+			return (this.getAvailableMoves(this.board)
+				.length === 0);
 		};
 
 		this.checkWin = function(board, player) {
@@ -110,6 +116,11 @@ class Game { //eslint-disable-line (no-unused-vars)
 				}
 				return best;
 			}
+		};
+
+		this.declareWinner = function(s) {
+			this.winner = s;
+			this.gameOver = true;
 		};
 	}
 }
