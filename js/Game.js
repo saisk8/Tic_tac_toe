@@ -41,7 +41,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 			this.board[square] = player;
 			this.winner = this.checkWin(this.board, player);
 			if (this.winner) {
-				this.declareWinner(this.winner.player);
+				this.declareWinner(this.winner);
 			}
 		};
 
