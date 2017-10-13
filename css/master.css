@@ -1,6 +1,6 @@
 h1, p {
 		text-align: center;
-		font-family: "Comic Sans MS", cursive, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 }
 
 td {
@@ -9,7 +9,6 @@ td {
 		width: 140px;
 		text-align: center;
 		vertical-align: middle;
-		font-family: "Comic Sans MS", cursive, sans-serif;
 		font-size: 80px;
 		cursor: pointer;
 }
@@ -48,7 +47,7 @@ button {
 		background-color: #ffffff;
 		outline: none;
 		cursor: pointer;
-		font-family: "Comic Sans MS", cursive, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 }
 
 .wrapper {
@@ -67,6 +66,6 @@ button {
 		margin-top: 15px;
 		margin-left: 12px;
 		font-size: 24px;
-		font-family: "Comic Sans MS", cursive, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		width: 100%
 }
