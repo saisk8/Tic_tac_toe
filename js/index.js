@@ -1,12 +1,12 @@
 const cells = document.querySelectorAll(".cell");
-var newGame;
+var game;
 
 function startGame() {
 	clearBoard();
 	document.getElementById("text")
 		.innerText = "";
 	addEventListener();
-	newGame = new Game("X"); //eslint-disable-line
+	game = new Game("X"); //eslint-disable-line
 }
 
 function addEventListener() {
@@ -17,46 +17,45 @@ function addEventListener() {
 }
 
 function play(e) {
-	if (!newGame.gameOver) {
-		newGame.humanTurn(e);
+	if (!game.gameOver) {
+		game.humanTurn(e);
 		showBoard();
-		if (newGame.gameOver) {
+		if (game.gameOver) {
 			showWinner();
 		}
 	} else {
 		showBoard();
 		showWinner();
 	}
-
 }
 
 
 function showWinner() {
 	var place = document.getElementById("text");
-	if (newGame.winner === "Tie") {
+	if (game.winner === "Tie") {
 		for (let i = 0; i < cells.length; i++) {
 			cells[i].style.backgroundColor = "#292e30";
 		}
 		place.innerText = "Tie game";
-	} else if (newGame.winner.player === "X") {
-		for (let c = 0; c < newGame.winner.index.length; c++) {
-			cells[newGame.winner.index[c]].style.backgroundColor = "#2f7731";
+	} else if (game.winner.player === "X") {
+		for (let c = 0; c < game.winner.index.length; c++) {
+			cells[game.winner.index[c]].style.backgroundColor = "#2f7731";
 		}
 		place.innerText = "You win";
 	} else {
-		for (let c = 0; c < newGame.winner.index.length; c++) {
-			cells[newGame.winner.index[c]].style.backgroundColor = "#bf3d09";
+		for (let c = 0; c < game.winner.index.length; c++) {
+			cells[game.winner.index[c]].style.backgroundColor = "#bf3d09";
 		}
 		place.innerText = "You lose";
 	}
 }
 
 function showBoard() {
-	for (let i = 0; i < newGame.board.length; i++) {
+	for (let i = 0; i < game.board.length; i++) {
 		let cell = document.getElementById(i);
-		//console.log(newGame.board);
-		if (!(typeof newGame.board[i] == "number")) {
-			if (newGame.board[i] === "X") {
+		//console.log(game.board);
+		if (!(typeof game.board[i] == "number")) {
+			if (game.board[i] === "X") {
 				cell.innerHTML = "<i class='fa fa-times' aria-hidden='true' style='color:#bf3d09;'></i>";
 			} else {
 				cell.innerHTML = "<i class='fa fa-circle-o' aria-hidden='true' style='color:#2f7731;'></i>";
