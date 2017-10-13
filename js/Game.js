@@ -21,7 +21,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 		];
 
 		this.humanTurn = function(cell) {
-			if (typeof cell.target.id == "string") {
+			if (typeof cell.target.id == "string" && (typeof this.board[cell.target.id] === "number")) {
 				this.updateBoard(cell.target.id, this.humanPlayer);
 				this.aiTurn();
 			}
