@@ -82,7 +82,7 @@ button {
 		height: 400px;
 		padding: 10px;
 		border-radius: 10px;
-		box-shadow: 3px;
+		box-shadow: 7px 10px 34px 1px rgba(0, 0, 0, 0.68);
 		left: 50%;
 		margin: auto;
 }
