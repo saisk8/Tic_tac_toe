@@ -12,7 +12,7 @@
 <body>
 	<h1>The Tic Tac Toe game</h1>
 	<p><i>Have fun!</i></p>
-	<div id="board">
+	<div id="board" class="hide">
 		<table>
 			<tr id="row1">
 				<td class="cell" id="0"></td>
@@ -30,10 +30,17 @@
 				<td class="cell" id="8"></td>
 			</tr>
 		</table>
+		<div class="wrapper">
+			<button onclick="getChoice()">Replay</button>
+			<div id="text">
+			</div>
+		</div>
 	</div>
-	<div class="wrapper">
-		<button onclick="startGame()">Replay</button>
-		<div id="text">
+	<div class="selector" id="select">
+		<h3>Select either X or O to start the game</h3>
+		<div class="choice">
+			<i id="X" class="fa fa-times" aria-hidden="true" style="color:#bf3d09; font-size:300px"></i>
+			<i id="O" class="fa fa-circle-o" aria-hidden="true" style="color:#2f7731; font-size:260px"></i>
 		</div>
 	</div>
 	<script src="./js/Game.js" charset="utf-8"></script>

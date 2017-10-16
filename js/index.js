@@ -1,12 +1,16 @@
 const cells = document.querySelectorAll(".cell");
 var game;
 
-function startGame() {
+function startGame(choice) {
+	document.getElementById("select")
+		.classList.add("hide");
+	document.getElementById("board")
+		.classList.remove("hide");
 	clearBoard();
 	document.getElementById("text")
 		.innerText = "";
 	addEventListener();
-	game = new Game("X"); //eslint-disable-line
+	game = new Game(choice); //eslint-disable-line
 }
 
 function addEventListener() {
@@ -75,4 +79,24 @@ function clearBoard() {
 	}
 }
 
-startGame();
+function getChoice() {
+	document.getElementById("board")
+		.classList.add("hide");
+	document.getElementById("select")
+		.classList.remove("hide");
+	document.getElementById("X")
+		.addEventListener("click", setChoice, false);
+	document.getElementById("O")
+		.addEventListener("click", setChoice, false);
+
+}
+
+function setChoice(e) {
+	document.getElementById("X")
+		.removeEventListener("click", setChoice, false);
+	document.getElementById("O")
+		.removeEventListener("click", setChoice, false);
+	startGame(e.target.id);
+}
+
+getChoice();

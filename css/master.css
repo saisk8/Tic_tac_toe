@@ -69,3 +69,24 @@ button {
 		font-family: 'Montserrat', sans-serif;
 		width: 100%
 }
+
+.hide {
+		display: none;
+}
+
+.selector {
+		text-align: center;
+		top: 40%;
+		border: 2px solid;
+		width: 600px;
+		height: 400px;
+		padding: 10px;
+		border-radius: 10px;
+		box-shadow: 3px;
+		left: 50%;
+		margin: auto;
+}
+
+.choice {
+		cursor: pointer;
+}
