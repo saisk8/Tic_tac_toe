@@ -1,3 +1,4 @@
+// Parts of the code were picked from this video :https://www.youtube.com/watch?v=P2TcQ3h0ipQ
 class Game { //eslint-disable-line (no-unused-vars)
 	constructor(player) {
 		this.winner = null;
