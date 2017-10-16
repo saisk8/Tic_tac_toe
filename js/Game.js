@@ -22,7 +22,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 
 		this.humanTurn = function(cell) {
 			if (typeof cell.target.id == "string" && (typeof this.board[cell.target.id] === "number")) {
-				this.updateBoard(cell.target.id, this.humanPlayer);
+				this.updateBoard(cell.target.id, this.humanPlayer, "Human");
 				this.aiTurn();
 			}
 		};
@@ -30,16 +30,16 @@ class Game { //eslint-disable-line (no-unused-vars)
 		this.aiTurn = function() {
 			if (!this.checkTie()) {
 				var move = this.aiMove();
-				this.updateBoard(move, this.aiPlayer);
+				this.updateBoard(move, this.aiPlayer, "AI");
 				return move;
 			} else {
 				this.declareWinner("Tie");
 			}
 		};
 
-		this.updateBoard = function(square, player) {
+		this.updateBoard = function(square, player, s) {
 			this.board[square] = player;
-			this.winner = this.checkWin(this.board, player);
+			this.winner = this.checkWin(this.board, player, s);
 			if (this.winner) {
 				this.declareWinner(this.winner);
 			}
@@ -50,7 +50,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 				.length === 0);
 		};
 
-		this.checkWin = function(board, player) {
+		this.checkWin = function(board, player, s) {
 			let plays = board.reduce((a, e, i) =>
 				(e === player) ? a.concat(i) : a, []);
 			let gameWon = null;
@@ -58,7 +58,8 @@ class Game { //eslint-disable-line (no-unused-vars)
 				if (win.every(elem => plays.indexOf(elem) > -1)) {
 					gameWon = {
 						index: this.winPattern[index],
-						player: player
+						player: player,
+						name: s
 					};
 					break;
 				}
@@ -79,7 +80,7 @@ class Game { //eslint-disable-line (no-unused-vars)
 					best = value;
 				}
 			}
-			this.updateBoard(move, this.aiPlayer);
+			this.updateBoard(move, this.aiPlayer, "AI");
 			return move;
 		};
 
@@ -119,7 +120,11 @@ class Game { //eslint-disable-line (no-unused-vars)
 		};
 
 		this.declareWinner = function(s) {
-			this.winner = s;
+			if (s === "Tie") {
+				this.winner = {
+					desc: s
+				};
+			}
 			this.gameOver = true;
 		};
 	}

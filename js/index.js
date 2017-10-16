@@ -36,19 +36,19 @@ function play(e) {
 
 function showWinner() {
 	var place = document.getElementById("text");
-	if (game.winner === "Tie") {
+	if (game.winner.desc === "Tie") {
 		for (let i = 0; i < cells.length; i++) {
 			cells[i].style.backgroundColor = "#292e30";
 		}
 		place.innerText = "Tie game";
-	} else if (game.winner.player === "X") {
+	} else if (game.winner.name === "Human") {
 		for (let c = 0; c < game.winner.index.length; c++) {
-			cells[game.winner.index[c]].style.backgroundColor = "#2f7731";
+			cells[game.winner.index[c]].style.backgroundColor = getHexColor(game.winner.player);
 		}
 		place.innerText = "You win";
 	} else {
 		for (let c = 0; c < game.winner.index.length; c++) {
-			cells[game.winner.index[c]].style.backgroundColor = "#bf3d09";
+			cells[game.winner.index[c]].style.backgroundColor = getHexColor(game.winner.player);
 		}
 		place.innerText = "You lose";
 	}
@@ -67,6 +67,14 @@ function showBoard() {
 		} else {
 			cell.innerText = "";
 		}
+	}
+}
+
+function getHexColor(winner) {
+	if (winner === "X") {
+		return "#2f7731";
+	} else {
+		return "#bf3d09";
 	}
 }
 
